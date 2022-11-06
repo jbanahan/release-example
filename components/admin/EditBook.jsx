@@ -105,6 +105,7 @@ class EditBook extends React.Component {
               value={this.state.book.githubRepo || ''}
               input={<Input />}
               onChange={(event) => {
+                event.stopPropagation();
                 this.setState({
                   // eslint-disable-next-line
                   book: { ...this.state.book, githubRepo: event.target.value },
@@ -123,7 +124,7 @@ class EditBook extends React.Component {
           </div>
           <br />
           <br />
-          <Button variant="contained" type="submit">
+          <Button variant="contained" color="primary" type="submit">
             Save
           </Button>
         </form>

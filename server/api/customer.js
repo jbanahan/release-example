@@ -2,6 +2,7 @@ const express = require('express');
 const Book = require('../models/Book');
 const Purchase = require('../models/Purchase');
 const { createSession } = require('../stripe');
+const logger = require('../logger');
 
 const router = express.Router();
 
@@ -40,7 +41,7 @@ router.post('/stripe/fetch-checkout-session', async (req, res) => {
 
     res.json({ sessionId: session.id });
   } catch (err) {
-    console.error(err);
+    logger.error(err);
     res.json({ error: err.message || err.toString() });
   }
 });
@@ -49,7 +50,7 @@ router.get('/my-books', async (req, res) => {
   try {
     const { purchasedBookIds = [] } = req.user;
 
-    const { purchasedBooks } = await Book.getPurchasedBooks({ purchasedBookIds });
+    const purchasedBooks = await Book.getPurchasedBooks({ purchasedBookIds });
 
     res.json({ purchasedBooks });
   } catch (err) {

@@ -10,11 +10,10 @@ import notify from '../../lib/notify';
 
 const styleBuyButton = {
   margin: '10px 20px 0px 0px',
-  font: '14px Roboto',
 };
 
 const dev = process.env.NODE_ENV !== 'production';
-const port = process.env.PORT || 8000;
+const port = process.env.NEXT_PUBLIC_PORT || 8000;
 const ROOT_URL = `http://localhost:${port}`;
 
 const stripePromise = loadStripe(
