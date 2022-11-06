@@ -24,10 +24,11 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm ci
-    - run: npm run build --if-present
-    - run: npm test
+        cache: 'yarn'
+    - name: Install packages
+      run: yarn install
+    - run: yarn run build
+    - run: yarn test
     - name: rsync deployments
       uses: burnett01/rsync-deployments@5.1
       with:
