@@ -56,8 +56,9 @@ function setupGithub({ server, ROOT_URL }) {
   });
 
   server.get('/auth/github/callback', async (req, res) => {
-    if (!req.user) {
-      res.redirect(ROOT_URL);
+    if (!req.user || !req.user.isAdmin) {
+      res.redirect(`${ROOT_URL}/login`);
+      return;
     }
 
     const { next_url, githubAuthState } = req.session;

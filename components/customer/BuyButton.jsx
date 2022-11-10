@@ -16,11 +16,7 @@ const dev = process.env.NODE_ENV !== 'production';
 const port = process.env.NEXT_PUBLIC_PORT || 8000;
 const ROOT_URL = `http://localhost:${port}`;
 
-const stripePromise = loadStripe(
-  dev
-    ? process.env.NEXT_PUBLIC_STRIPE_TEST_PUBLISHABLEKEY
-    : process.env.NEXT_PUBLIC_STRIPE_LIVE_PUBLISHABLEKEY,
-);
+// define stripePromise
 
 const propTypes = {
   book: PropTypes.shape({
@@ -55,7 +51,7 @@ class BuyButton extends React.Component {
 
     if (!user) {
       const redirectUrl = `${window.location.pathname}?buy=1`;
-      window.location.href = `${ROOT_URL}/auth/google?redirectUrl=${redirectUrl}`;
+      window.location = `${ROOT_URL}/auth/google?redirectUrl=${redirectUrl}`;
     }
   };
 
