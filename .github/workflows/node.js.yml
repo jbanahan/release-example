@@ -48,7 +48,7 @@ jobs:
     - name: rsync deployments
       uses: burnett01/rsync-deployments@5.1
       with:
-        switches: -avzrO --include=".env" --delete
+        switches: -vzr --include=".env" --delete
         path: ./
         remote_path: /var/www/jbanahan/
         remote_host: ec2-34-221-53-119.us-west-2.compute.amazonaws.com
