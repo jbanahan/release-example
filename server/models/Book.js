@@ -2,14 +2,9 @@
 
 const mongoose = require('mongoose');
 const frontmatter = require('front-matter');
-
 const generateSlug = require('../utils/slugify');
-const User = require('./User');
-const Purchase = require('./Purchase');
-
+// const Chapter = require('./Chapter');
 const { getCommits, getRepoDetail } = require('../github');
-
-const logger = require('../logger');
 
 const { Schema } = mongoose;
 
@@ -42,7 +37,7 @@ const mongoSchema = new Schema({
 class BookClass {
   static async list({ offset = 0, limit = 10 } = {}) {
     const books = await this.find({}).sort({ createdAt: -1 }).skip(offset).limit(limit);
-    return books;
+    return { books };
   }
 
   static async getBySlug({ slug }) {
@@ -53,9 +48,9 @@ class BookClass {
 
     const book = bookDoc.toObject();
 
-    book.chapters = (await Chapter.find({ bookId: book._id }, 'title slug').sort({ order: 1 })).map(
-      (chapter) => chapter.toObject(),
-    );
+    book.chapters = (
+      await Chapter.find({ bookId: book._id }, 'title slug').sort({ order: 1 })
+    ).map((chapter) => chapter.toObject());
 
     return book;
   }

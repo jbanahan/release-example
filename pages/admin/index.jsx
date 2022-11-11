@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
-import NProgress from 'nprogress';
 
 import Button from '@mui/material/Button';
 
@@ -24,21 +23,17 @@ const Index = ({ books }) => (
     <div>
       <h2>Books</h2>
       <Link href="/admin/add-book">
-        <Button variant="contained" color="primary">
-          Add book
-        </Button>
+        <Button variant="contained">Add book</Button>
       </Link>
       <p />
       <ul>
-        {books &&
-          books.length > 0 &&
-          books.map((b) => (
-            <li key={b._id}>
-              <Link as={`/admin/book-detail/${b.slug}`} href={`/admin/book-detail?slug=${b.slug}`}>
-                <a>{b.name}</a>
-              </Link>
-            </li>
-          ))}
+        {books.map((b) => (
+          <li key={b._id}>
+            <Link as={`/admin/book-detail/${b.slug}`} href={`/admin/book-detail?slug=${b.slug}`}>
+              <a>{b.name}</a>
+            </Link>
+          </li>
+        ))}
       </ul>
       <br />
     </div>
@@ -55,32 +50,35 @@ const defaultProps2 = {
   errorMessage: null,
 };
 
-function IndexWithData({ errorMessage }) {
-  const [books, setBooks] = useState([]);
+class IndexWithData extends React.Component {
+  static getInitialProps({ query }) {
+    return { errorMessage: query.error };
+  }
 
-  useEffect(() => {
-    if (errorMessage) {
-      notify(errorMessage);
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      books: [],
+    };
+  }
+
+  async componentDidMount() {
+    if (this.props.errorMessage) {
+      notify(this.props.errorMessage);
     }
 
-    const getBooks = async () => {
-      NProgress.start();
+    try {
+      const { books } = await getBookListApiMethod();
+      this.setState({ books }); // eslint-disable-line
+    } catch (err) {
+      notify(err);
+    }
+  }
 
-      try {
-        const booksFromServer = await getBookListApiMethod();
-        // console.log('client', booksFromServer);
-        setBooks(booksFromServer);
-      } catch (err) {
-        notify(err);
-      } finally {
-        NProgress.done();
-      }
-    };
-
-    getBooks();
-  }, []);
-
-  return <Index books={books} />;
+  render() {
+    return <Index {...this.state} />;
+  }
 }
 
 IndexWithData.propTypes = propTypes2;

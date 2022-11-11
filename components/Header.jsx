@@ -8,6 +8,8 @@ import Avatar from '@mui/material/Avatar';
 
 import MenuWithAvatar from './MenuWithAvatar';
 
+import { styleToolbar, styleRaisedButton } from './SharedStyles';
+
 const optionsMenuCustomer = [
   {
     text: 'My books',
@@ -42,16 +44,14 @@ const propTypes = {
     isGithubConnected: PropTypes.bool,
   }),
   hideHeader: PropTypes.bool,
-  redirectUrl: PropTypes.string,
 };
 
 const defaultProps = {
   user: null,
   hideHeader: false,
-  redirectUrl: '',
 };
 
-function Header({ user, hideHeader, redirectUrl }) {
+function Header({ user, hideHeader }) {
   return (
     <div
       style={{
@@ -60,13 +60,12 @@ function Header({ user, hideHeader, redirectUrl }) {
         display: 'block',
         top: hideHeader ? '-64px' : '0px',
         transition: 'top 0.5s ease-in',
-        backgroundColor: '#24292e',
       }}
     >
-      <Toolbar>
+      <Toolbar style={styleToolbar}>
         <Grid container direction="row" justifyContent="space-around" alignItems="center">
           <Grid item sm={8} xs={7} style={{ textAlign: 'left' }}>
-            {user ? null : (
+            {!user ? (
               <Link href="/">
                 <Avatar
                   src="https://storage.googleapis.com/builderbook/logo.svg"
@@ -74,13 +73,13 @@ function Header({ user, hideHeader, redirectUrl }) {
                   style={{ margin: '0px auto 0px 20px', cursor: 'pointer' }}
                 />
               </Link>
-            )}
+            ) : null}
           </Grid>
           <Grid item sm={2} xs={2} style={{ textAlign: 'right' }}>
             {user && user.isAdmin && !user.isGithubConnected ? (
               <Hidden mdDown>
                 <a href="/auth/github">
-                  <Button variant="contained" color="primary">
+                  <Button variant="contained" color="primary" style={styleRaisedButton}>
                     Connect Github
                   </Button>
                 </a>
@@ -106,16 +105,7 @@ function Header({ user, hideHeader, redirectUrl }) {
                 ) : null}
               </div>
             ) : (
-              <Link
-                href={{
-                  pathname: '/public/login',
-                  query: { redirectUrl },
-                }}
-                as={{
-                  pathname: '/login',
-                  query: { redirectUrl },
-                }}
-              >
+              <Link href="/public/login" as="/login">
                 <a style={{ margin: '0px 20px 0px auto' }}>Log in</a>
               </Link>
             )}

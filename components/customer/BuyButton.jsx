@@ -1,22 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import NProgress from 'nprogress';
 import Button from '@mui/material/Button';
-import { loadStripe } from '@stripe/stripe-js';
-
-import { fetchCheckoutSessionApiMethod } from '../../lib/api/customer';
-
-import notify from '../../lib/notify';
 
 const styleBuyButton = {
   margin: '10px 20px 0px 0px',
 };
 
-const dev = process.env.NODE_ENV !== 'production';
 const port = process.env.NEXT_PUBLIC_PORT || 8000;
 const ROOT_URL = `http://localhost:${port}`;
-
-// define stripePromise
 
 const propTypes = {
   book: PropTypes.shape({
@@ -51,32 +42,12 @@ class BuyButton extends React.Component {
 
     if (!user) {
       const redirectUrl = `${window.location.pathname}?buy=1`;
-      window.location = `${ROOT_URL}/auth/google?redirectUrl=${redirectUrl}`;
+      window.location.href = `${ROOT_URL}/auth/google?redirectUrl=${redirectUrl}`;
     }
   };
 
   handleCheckoutClick = async () => {
-    NProgress.start();
-
-    try {
-      const { book } = this.props;
-      const { sessionId } = await fetchCheckoutSessionApiMethod({
-        bookId: book._id,
-        redirectUrl: document.location.pathname,
-      });
-
-      // When the customer clicks on the button, redirect them to Checkout.
-      const stripe = await stripePromise;
-      const { error } = await stripe.redirectToCheckout({ sessionId });
-
-      if (error) {
-        notify(error);
-      }
-    } catch (err) {
-      notify(err);
-    } finally {
-      NProgress.done();
-    }
+    return true;
   };
 
   render() {

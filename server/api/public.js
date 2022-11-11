@@ -15,7 +15,7 @@ router.get('/books', async (req, res) => {
 
 router.get('/books/:slug', async (req, res) => {
   try {
-    const book = await Book.getBySlug({ slug: req.params.slug });
+    const book = await Book.getBySlug({ slug: req.params.slug, userId: req.user && req.user.id });
     res.json(book);
   } catch (err) {
     res.json({ error: err.message || err.toString() });
