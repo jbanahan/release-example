@@ -54,3 +54,14 @@ jobs:
         remote_host: ec2-34-221-53-119.us-west-2.compute.amazonaws.com
         remote_user: ubuntu
         remote_key: "${{ secrets.SSH_PRIVATE_KEY }}"
+
+    # This is just to move the env file
+    - name: rsync deployments
+      uses: burnett01/rsync-deployments@5.1
+      with:
+        switches: -avzr --include=".env" --delete
+        path: ./
+        remote_path: /var/www/jbanahan
+        remote_host: ec2-34-221-53-119.us-west-2.compute.amazonaws.com
+        remote_user: ubuntu
+        remote_key: "${{ secrets.SSH_PRIVATE_KEY }}"
