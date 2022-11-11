@@ -43,13 +43,13 @@ jobs:
     - name: Make envfile
       uses: SpicyPizza/create-envfile@v1.3
       with:
-        MONGO_URL: ${{ secrets.MONGO_URL }}
-        SESSION_NAME: ${{ secrets.SESSION_NAME }}
-        SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
-        GOOGLE_CLIENTID: ${{ secrets.GOOGLE_CLIENTID }}
-        GOOGLE_CLIENTSECRET: ${{ secrets.GOOGLE_CLIENTSECRET }}
-        AWS_ACCESSKEYID: ${{ secrets.AWS_ACCESSKEYID }}
-        AWS_SECRETACCESSKEY: ${{ secrets.AWS_SECRETACCESSKEY }}
-        NEXT_PUBLIC_URL_APP: "http://localhost:8000"
-        GITHUB_LIVE_CLIENTID: ${{ secrets.GHUB_LIVE_CLIENTID }}
-        GITHUB_LIVE_SECRETKEY: ${{ secrets.GHUB_LIVE_SECRETKEY }}
+        envkey_MONGO_URL: ${{ secrets.MONGO_URL }}
+        envkey_SESSION_NAME: ${{ secrets.SESSION_NAME }}
+        envkey_SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
+        envkey_GOOGLE_CLIENTID: ${{ secrets.GOOGLE_CLIENTID }}
+        envkey_GOOGLE_CLIENTSECRET: ${{ secrets.GOOGLE_CLIENTSECRET }}
+        envkey_AWS_ACCESSKEYID: ${{ secrets.AWS_ACCESSKEYID }}
+        envkey_AWS_SECRETACCESSKEY: ${{ secrets.AWS_SECRETACCESSKEY }}
+        envkey_NEXT_PUBLIC_URL_APP: "http://localhost:8000"
+        envkey_GITHUB_LIVE_CLIENTID: ${{ secrets.GHUB_LIVE_CLIENTID }}
+        envkey_GITHUB_LIVE_SECRETKEY: ${{ secrets.GHUB_LIVE_SECRETKEY }}
