@@ -44,6 +44,7 @@ jobs:
         envkey_NEXT_PUBLIC_URL_APP: "http://jbanahan.acsg540.com"
         envkey_GITHUB_LIVE_CLIENTID: ${{ secrets.GHUB_LIVE_CLIENTID }}
         envkey_GITHUB_LIVE_SECRETKEY: ${{ secrets.GHUB_LIVE_SECRETKEY }}
+        envkey_COOKIE_DOMAIN: ".jbanahan.acsg540.com"
 
     - name: rsync deployments
       uses: burnett01/rsync-deployments@5.1
