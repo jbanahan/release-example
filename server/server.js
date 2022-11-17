@@ -26,7 +26,21 @@ const options = {
   useFindAndModify: false,
   useUnifiedTopology: true,
 };
-mongoose.connect(MONGO_URL, options);
+
+const connectDatabase = async () => {
+  try {
+    mongoose.set('useNewUrlParser', true);
+
+    await mongoose.connect(MONGO_URL, options);
+
+    console.log('connected to database');
+  } catch (error) {
+    console.log(error);
+    process.exit(1);
+  }
+};
+
+connectDatabase();
 
 const port = process.env.PORT || 8000;
 const ROOT_URL = getRootUrl();
